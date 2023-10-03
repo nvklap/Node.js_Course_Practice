@@ -33,8 +33,6 @@ const router = Router();
  *                  example: Internal Server Error
  */
 
-router.get('/', (req, res, next) => {
-	res.json({ isRunning: true });
-});
+router.get('/', (req, res, next) => res.json({ isRunning: true }));
 
 module.exports = router;
