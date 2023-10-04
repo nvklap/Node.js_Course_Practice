@@ -1,0 +1,29 @@
+{
+	"name": "node.js_course_practice",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "nodemon src/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nvklap/Node.js_Course_Practice.git"
+	},
+	"keywords": [],
+	"author": "Nataliia Klapchuk",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/nvklap/Node.js_Course_Practice/issues"
+	},
+	"homepage": "https://github.com/nvklap/Node.js_Course_Practice#readme",
+	"dependencies": {
+		"express": "^4.18.2",
+		"swagger-jsdoc": "^6.2.8",
+		"swagger-ui-express": "^5.0.0"
+	},
+	"devDependencies": {
+		"nodemon": "^3.0.1"
+	}
+}
