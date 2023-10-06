@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 
 const router: Router = Router();
 
@@ -36,8 +36,7 @@ const router: Router = Router();
 
 router.get(
 	'/',
-	(req: Request, res: Response, next: NextFunction): Response =>
-		res.json({ isRunning: true })
+	(req: Request, res: Response): Response => res.json({ isRunning: true })
 );
 
 export default router;

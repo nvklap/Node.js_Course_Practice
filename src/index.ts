@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction, Router } from 'express';
+import express, { Request, Response, Express } from 'express';
 import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 
@@ -19,7 +19,7 @@ const options: Options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
-const app = express();
+const app: Express = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req: Request, res: Response) =>
@@ -31,12 +31,12 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use('/health-check', healthRouter);
 
 app.use(
-	(req: Request, res: Response, next: NextFunction): Response =>
+	(req: Request, res: Response): Response =>
 		res.status(404).send('Not Found - 404')
 );
 
 app.use(
-	(err: Error, req: Request, res: Response, next: NextFunction): Response =>
+	(err: Error, req: Request, res: Response): Response =>
 		res.status(500).send('Internal Server Error - 500')
 );
 
