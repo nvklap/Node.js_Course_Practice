@@ -1,23 +1,8 @@
 import express, { Request, Response, Express } from 'express';
-import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 
+import swaggerSpec from './utils/swagger';
 import healthRouter from './routes/health-check';
-
-const options: Options = {
-	definition: {
-		openapi: '3.0.0',
-		info: {
-			title: 'Epam Node js Course',
-			version: '1.0.0',
-		},
-		servers: [
-			{ url: 'http://localhost:3000', description: 'Development server' },
-		],
-	},
-	apis: ['./src/routes/*.ts'],
-};
-const swaggerSpec = swaggerJSDoc(options);
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
