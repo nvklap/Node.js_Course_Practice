@@ -1,5 +1,6 @@
-const { Router } = require('express');
-const router = Router();
+import { Router, Request, Response } from 'express';
+
+const router: Router = Router();
 
 /**
  * @swagger
@@ -33,6 +34,9 @@ const router = Router();
  *                  example: Internal Server Error
  */
 
-router.get('/', (req, res, next) => res.json({ isRunning: true }));
+router.get(
+	'/',
+	(req: Request, res: Response): Response => res.json({ isRunning: true })
+);
 
-module.exports = router;
+export default router;
