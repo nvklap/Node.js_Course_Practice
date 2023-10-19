@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import swaggerSpec from './utils/swagger';
 import healthRouter from './routes/health-check';
 import movieRouter from './routes/movies.routes';
+import genreRouter from './routes/genres.routes';
 import errorHandler from './middleware/errorHandler.middleware';
 import Error from './interfaces/error.interface';
 
@@ -23,6 +24,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 app.use('/health-check', healthRouter);
 app.use('/movies', movieRouter);
+app.use('/genres', genreRouter);
 
 app.use((_req: Request, _res: Response, _next: NextFunction) => {
 	const error: Error = new Error('Not found!');

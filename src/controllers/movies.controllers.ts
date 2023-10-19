@@ -110,11 +110,3 @@ export const deleteMovie = async (
 		next(error);
 	}
 };
-
-export default {
-	getAllMovies,
-	getMovie,
-	createMovie,
-	updateMovie,
-	deleteMovie,
-};

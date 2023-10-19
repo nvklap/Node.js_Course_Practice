@@ -1,3 +1,3 @@
-export default interface Genre {
+export default interface IGenre {
 	name: string;
 }

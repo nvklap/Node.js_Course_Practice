@@ -7,6 +7,7 @@ const errorHandler = (
 	res: Response,
 	_next: NextFunction
 ) => {
+	// const statusCode = error.code ? 422 : error.statusCode || 500;
 	const statusCode = error.statusCode || 500;
 	const message = error.message || 'Internal Server Error';
 
