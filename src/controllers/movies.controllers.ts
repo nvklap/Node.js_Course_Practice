@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+
 import Movie from '../models/movie.model';
-import Error from '../interfaces/error.interface';
+import Genre from '../models/genre.model';
+import CustomError from '../interfaces/error.interface';
 
 export const getAllMovies = async (
 	req: Request,
@@ -8,15 +10,14 @@ export const getAllMovies = async (
 	next: NextFunction
 ) => {
 	try {
-		const result = await Movie.find();
-
+		const result = await Movie.find().populate('genre');
 		return res.status(200).json(result);
 	} catch (error) {
 		next(error);
 	}
 };
 
-export const getMovie = async (
+export const getMovieById = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -24,15 +25,40 @@ export const getMovie = async (
 	const movieId = req.params.movieId;
 
 	try {
-		const result = await Movie.findById(movieId);
+		const result = await Movie.findById(movieId).populate('genre');
 
 		if (!result) {
-			const error: Error = new Error('Could not find a movie');
+			const error: CustomError = new Error(
+				`Could not find a movie with ${movieId} ID`
+			);
 			error.statusCode = 404;
 			throw error;
 		}
 
 		res.status(200).json(result);
+	} catch (error) {
+		next(error);
+	}
+};
+export const getMoviesByGenre = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const genreName = req.params.genreName;
+
+	try {
+		const genre = await Genre.findOne({ name: genreName });
+
+		if (!genre) {
+			const error: CustomError = new Error(`Could not find ${genreName} genre`);
+			error.statusCode = 404;
+			throw error;
+		}
+
+		const movies = await Movie.find({ genre: genre._id }).populate('genre');
+
+		res.status(200).json(movies);
 	} catch (error) {
 		next(error);
 	}
@@ -78,7 +104,9 @@ export const updateMovie = async (
 		});
 
 		if (!result) {
-			const error: Error = new Error('Could not find a movie');
+			const error: CustomError = new Error(
+				`Could not update a movie with ${movieId} ID because there is no movie with this ID`
+			);
 			error.statusCode = 404;
 			throw error;
 		}
@@ -100,7 +128,9 @@ export const deleteMovie = async (
 		const result = await Movie.findByIdAndRemove(movieId);
 
 		if (!result) {
-			const error: Error = new Error('Could not find a movie');
+			const error: CustomError = new Error(
+				`Could not delete a movie with ${movieId} ID because there is no movie with this ID`
+			);
 			error.statusCode = 404;
 			throw error;
 		}
