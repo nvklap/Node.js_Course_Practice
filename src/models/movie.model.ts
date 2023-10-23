@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose';
-
+import * as coreJoi from 'joi';
+import * as joiDate from '@joi/date';
 import IMovie from '../interfaces/movie.interface';
-import Joi from 'joi';
+const Joi = coreJoi.extend(joiDate.default(coreJoi)) as typeof coreJoi;
 
 const MovieSchema = new Schema<IMovie>({
 	title: { type: String, required: true },
@@ -14,13 +15,12 @@ const MovieSchema = new Schema<IMovie>({
 	},
 });
 
-// export type Movie = InferSchemaType<typeof MovieSchema>;
 const Movie = model<IMovie>('Movie', MovieSchema);
 
 export const MovieJoiSchema = Joi.object<IMovie>({
 	title: Joi.string().min(1).required(),
 	description: Joi.string().min(5).required(),
-	release_date: Joi.date().required(),
+	release_date: Joi.date().format('YYYY-MM-DD').required(),
 	genre: Joi.array()
 		.min(1)
 		.items(

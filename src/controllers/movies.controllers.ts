@@ -54,7 +54,7 @@ export const getMoviesByGenre = async (
 			);
 		}
 
-		const movies = await Movie.find({ genre: genre._id }).populate('genre');
+		const movies = await Movie.find({ genre: genre._id });
 
 		res.status(200).json(movies);
 	} catch (error) {
