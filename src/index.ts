@@ -7,7 +7,7 @@ import healthRouter from './routes/health-check';
 import movieRouter from './routes/movies.routes';
 import genreRouter from './routes/genres.routes';
 import errorHandler from './middleware/errorHandler.middleware';
-import CustomError from './interfaces/error.interface';
+import CustomError from './utils/CustomError';
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
@@ -27,9 +27,7 @@ app.use('/movies', movieRouter);
 app.use('/genres', genreRouter);
 
 app.use((_req: Request, _res: Response, _next: NextFunction) => {
-	const error: CustomError = new Error('404');
-	error.statusCode = 404;
-	throw error;
+	throw new CustomError('Not Found', 404);
 });
 
 app.use(errorHandler);

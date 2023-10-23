@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import Genre from '../models/genre.model';
-import Error from '../interfaces/error.interface';
+import IGenre from '../interfaces/genre.interface';
+import CustomError from '../utils/CustomError';
 
 export const gellAllGenres = async (
 	req: Request,
@@ -20,19 +21,9 @@ export const createGenre = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const name = req.body.name;
+	const { name } = req.body as IGenre;
 
 	try {
-		const genre = await Genre.find({ name });
-
-		if (genre.length) {
-			const error: Error = new Error(
-				`${name} already exist. Genre should be unique!`
-			);
-			error.statusCode = 422;
-			throw error;
-		}
-
 		const createdGenre = new Genre({ name });
 		const result = await createdGenre.save();
 
@@ -52,9 +43,7 @@ export const getGenre = async (
 		const genre = await Genre.findById(genreId);
 
 		if (!genre) {
-			const error: Error = new Error('Could not find a genre');
-			error.statusCode = 404;
-			throw error;
+			throw new CustomError(`Could not find a genre with ${genreId} ID`, 404);
 		}
 
 		return res.status(200).json(genre);
@@ -76,9 +65,10 @@ export const updateGenre = async (
 		});
 
 		if (!genre) {
-			const error: Error = new Error('Could not find a genre');
-			error.statusCode = 404;
-			throw error;
+			throw new CustomError(
+				`Could not update a genre with ${genreId} ID because there is no genre with this ID`,
+				404
+			);
 		}
 
 		res.status(200).json(genre);
@@ -98,9 +88,10 @@ export const deleteGenre = async (
 		const genre = await Genre.findByIdAndRemove(genreId);
 
 		if (!genre) {
-			const error: Error = new Error('Could not find a genre');
-			error.statusCode = 404;
-			throw error;
+			throw new CustomError(
+				`Could not delete a movie with ${genreId} ID because there is no movie with this ID`,
+				404
+			);
 		}
 
 		res.status(200).json(genre);

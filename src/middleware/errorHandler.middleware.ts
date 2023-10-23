@@ -1,10 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Error } from 'mongoose';
-import CustomError from '../interfaces/error.interface';
-
-function isCustomError(value: unknown): value is CustomError {
-	return value !== null && typeof value === 'object' && 'message' in value;
-}
+import { ValidationError } from 'joi';
+import CustomError from '../utils/CustomError';
 
 const errorHandler = (
 	error: unknown,
@@ -13,15 +10,17 @@ const errorHandler = (
 	_next: NextFunction
 ) => {
 	let statusCode = 500;
-	let message = 'Internal Server Error';
+	let message = 'Something went wrong';
+
 	if (
 		error instanceof Error.CastError ||
+		error instanceof ValidationError ||
 		error instanceof Error.ValidationError
 	) {
 		statusCode = 422;
-		message = error.message;
-	} else if (isCustomError(error)) {
-		statusCode = error.statusCode ?? statusCode;
+		message = error.message.replace(/"/g, '');
+	} else if (error instanceof CustomError) {
+		statusCode = error.statusCode;
 		message = error.message;
 	}
 

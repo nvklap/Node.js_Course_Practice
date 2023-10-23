@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import Movie from '../models/movie.model';
 import Genre from '../models/genre.model';
-import CustomError from '../interfaces/error.interface';
+import CustomError from '../utils/CustomError';
 
 export const getAllMovies = async (
 	req: Request,
@@ -28,11 +28,7 @@ export const getMovieById = async (
 		const result = await Movie.findById(movieId).populate('genre');
 
 		if (!result) {
-			const error: CustomError = new Error(
-				`Could not find a movie with ${movieId} ID`
-			);
-			error.statusCode = 404;
-			throw error;
+			throw new CustomError(`Could not find a movie with ${movieId} ID`, 404);
 		}
 
 		res.status(200).json(result);
@@ -51,9 +47,10 @@ export const getMoviesByGenre = async (
 		const genre = await Genre.findOne({ name: genreName });
 
 		if (!genre) {
-			const error: CustomError = new Error(`Could not find ${genreName} genre`);
-			error.statusCode = 404;
-			throw error;
+			throw new CustomError(
+				`Could not find a movie with ${genreName} genre`,
+				404
+			);
 		}
 
 		const movies = await Movie.find({ genre: genre._id }).populate('genre');
@@ -104,11 +101,10 @@ export const updateMovie = async (
 		});
 
 		if (!result) {
-			const error: CustomError = new Error(
-				`Could not update a movie with ${movieId} ID because there is no movie with this ID`
+			throw new CustomError(
+				`Could not update a movie with ${movieId} ID because there is no movie with this ID`,
+				404
 			);
-			error.statusCode = 404;
-			throw error;
 		}
 
 		res.status(200).json(result);
@@ -128,11 +124,10 @@ export const deleteMovie = async (
 		const result = await Movie.findByIdAndRemove(movieId);
 
 		if (!result) {
-			const error: CustomError = new Error(
-				`Could not delete a movie with ${movieId} ID because there is no movie with this ID`
+			throw new CustomError(
+				`Could not delete a movie with ${movieId} ID because there is no movie with this ID`,
+				404
 			);
-			error.statusCode = 404;
-			throw error;
 		}
 
 		res.status(200).json(result);
