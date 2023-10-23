@@ -51,6 +51,82 @@ const options: Options = {
 						name: 'comedy',
 					},
 				},
+				Movie: {
+					type: 'object',
+					properties: {
+						_id: {
+							type: 'string',
+							description: 'The unique identifier of the movie',
+						},
+						title: {
+							type: 'string',
+							minLength: 1,
+							description: 'Title of the movie',
+						},
+						description: {
+							type: 'string',
+							minLength: 5,
+							description: 'Short description of the movie',
+						},
+						release_date: {
+							type: 'string',
+							format: 'date',
+							description: 'Release date of the movie',
+						},
+						genre: {
+							type: 'array',
+							minItems: 1,
+							items: {
+								type: 'string',
+								description: 'Unique identifier of the genre',
+							},
+						},
+					},
+					example: {
+						_id: '65325371d5dd96472bc2cbe9',
+						title: 'Dial M for Murder',
+						description:
+							'A former tennis star arranges the murder of his adulterous wife',
+						release_date: '1954-05-29',
+						genre: ['653250c0b81c59abd554d463', '653250b1b81c59abd554d460'],
+					},
+				},
+				MovieBody: {
+					type: 'object',
+					required: ['title', 'description', 'release_date', 'genre'],
+					properties: {
+						title: {
+							type: 'string',
+							minLength: 1,
+							description: 'Title of the movie',
+						},
+						description: {
+							type: 'string',
+							minLength: 5,
+							description: 'Short description of the movie',
+						},
+						release_date: {
+							type: 'string',
+							format: 'date',
+							description: 'Release date of the movie',
+						},
+						genre: {
+							type: 'array',
+							minItems: 1,
+							items: {
+								type: 'string',
+								description: 'Unique identifier of the genre',
+							},
+						},
+					},
+					example: {
+						title: 'Dial M for Murder',
+						description:
+							'A former tennis star arranges the murder of his adulterous wife',
+						release_date: '1954-05-29',
+						genre: ['653250c0b81c59abd554d463', '653250b1b81c59abd554d460'],
+					},
+				},
 			},
 			responses: {
 				404: {

@@ -10,7 +10,7 @@ export const getAllMovies = async (
 	next: NextFunction
 ) => {
 	try {
-		const result = await Movie.find().populate('genre');
+		const result = await Movie.find();
 		return res.status(200).json(result);
 	} catch (error) {
 		next(error);
@@ -25,7 +25,7 @@ export const getMovieById = async (
 	const movieId = req.params.movieId;
 
 	try {
-		const result = await Movie.findById(movieId).populate('genre');
+		const result = await Movie.findById(movieId);
 
 		if (!result) {
 			throw new CustomError(`Could not find a movie with ${movieId} ID`, 404);
@@ -36,6 +36,7 @@ export const getMovieById = async (
 		next(error);
 	}
 };
+
 export const getMoviesByGenre = async (
 	req: Request,
 	res: Response,

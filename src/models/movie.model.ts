@@ -7,7 +7,6 @@ const MovieSchema = new Schema<IMovie>({
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	release_date: { type: Date, required: true },
-	// genre: { type: [String], required: true },
 	genre: {
 		type: [Schema.Types.ObjectId],
 		ref: 'Genre',
