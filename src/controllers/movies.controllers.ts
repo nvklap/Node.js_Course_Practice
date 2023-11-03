@@ -28,14 +28,12 @@ export const getMovieById = async (
 		const result = await Movie.findById(movieId);
 
 		if (!result) {
-			return next(
-				new CustomError(`Could not find a movie with ${movieId} ID`, 404)
-			);
+			throw new CustomError(`Could not find a movie with ${movieId} ID`, 404);
 		}
 
 		res.status(200).json(result);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };
 
@@ -50,8 +48,9 @@ export const getMoviesByGenre = async (
 		const genre = await Genre.findOne({ name: genreName });
 
 		if (!genre) {
-			return next(
-				new CustomError(`Could not find a movie with ${genreName} genre`, 404)
+			throw new CustomError(
+				`Could not find a movie with ${genreName} genre`,
+				404
 			);
 		}
 
@@ -59,7 +58,7 @@ export const getMoviesByGenre = async (
 
 		res.status(200).json(movies);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };
 
@@ -103,17 +102,15 @@ export const updateMovie = async (
 		});
 
 		if (!result) {
-			return next(
-				new CustomError(
-					`Could not update a movie with ${movieId} ID because there is no movie with this ID`,
-					404
-				)
+			throw new CustomError(
+				`Could not update a movie with ${movieId} ID because there is no movie with this ID`,
+				404
 			);
 		}
 
 		res.status(200).json(result);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };
 
@@ -128,16 +125,14 @@ export const deleteMovie = async (
 		const result = await Movie.findByIdAndRemove(movieId);
 
 		if (!result) {
-			return next(
-				new CustomError(
-					`Could not delete a movie with ${movieId} ID because there is no movie with this ID`,
-					404
-				)
+			throw new CustomError(
+				`Could not delete a movie with ${movieId} ID because there is no movie with this ID`,
+				404
 			);
 		}
 
 		res.status(200).json(result);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };

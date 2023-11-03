@@ -43,14 +43,12 @@ export const getGenre = async (
 		const genre = await Genre.findById(genreId);
 
 		if (!genre) {
-			return next(
-				new CustomError(`Could not find a genre with ${genreId} ID`, 404)
-			);
+			throw new CustomError(`Could not find a genre with ${genreId} ID`, 404);
 		}
 
 		return res.status(200).json(genre);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };
 
@@ -67,17 +65,15 @@ export const updateGenre = async (
 		});
 
 		if (!genre) {
-			return next(
-				new CustomError(
-					`Could not update a genre with ${genreId} ID because there is no genre with this ID`,
-					404
-				)
+			throw new CustomError(
+				`Could not update a genre with ${genreId} ID because there is no genre with this ID`,
+				404
 			);
 		}
 
 		res.status(200).json(genre);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };
 
@@ -92,16 +88,14 @@ export const deleteGenre = async (
 		const genre = await Genre.findByIdAndRemove(genreId);
 
 		if (!genre) {
-			return next(
-				new CustomError(
-					`Could not delete a movie with ${genreId} ID because there is no movie with this ID`,
-					404
-				)
+			throw new CustomError(
+				`Could not delete a movie with ${genreId} ID because there is no movie with this ID`,
+				404
 			);
 		}
 
 		res.status(200).json(genre);
 	} catch (error) {
-		next(error);
+		return next(error);
 	}
 };
