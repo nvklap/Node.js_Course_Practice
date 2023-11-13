@@ -16,22 +16,9 @@ const router: Router = Router();
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                status:
- *                  type: boolean
- *                  description: Shows whether server is running or not
- *                  example: true
+ *              $ref: '#/components/schemas/HealthCheck'
  *       500:
- *        description: Internal Server Error
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                error:
- *                  type: string
- *                  example: Internal Server Error
+ *         $ref: '#/components/responses/500'
  */
 
 router.get(
