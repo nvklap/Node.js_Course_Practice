@@ -4,16 +4,19 @@ import * as joiDate from '@joi/date';
 import IMovie from '../interfaces/movie.interface';
 const Joi = coreJoi.extend(joiDate.default(coreJoi)) as typeof coreJoi;
 
-const MovieSchema = new Schema<IMovie>({
-	title: { type: String, required: true },
-	description: { type: String, required: true },
-	release_date: { type: Date, required: true },
-	genre: {
-		type: [Schema.Types.ObjectId],
-		ref: 'Genre',
-		required: [true, 'Genres are required!'],
+const MovieSchema = new Schema<IMovie>(
+	{
+		title: { type: String, required: true },
+		description: { type: String, required: true },
+		release_date: { type: Date, required: true },
+		genre: {
+			type: [Schema.Types.ObjectId],
+			ref: 'Genre',
+			required: [true, 'Genres are required!'],
+		},
 	},
-});
+	{ versionKey: false }
+);
 
 const Movie = model<IMovie>('Movie', MovieSchema);
 

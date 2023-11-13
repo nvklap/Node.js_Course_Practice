@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express, { Request, Response, Express, NextFunction } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import mongoose from 'mongoose';
@@ -9,10 +10,11 @@ import genreRouter from './routes/genres.routes';
 import errorHandler from './middleware/errorHandler.middleware';
 import CustomError from './utils/CustomError';
 
+dotenv.config();
+
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI =
-	'mongodb+srv://nosql_prac:LmYvNEGPnOC0RJEc@cluster0.qbcmqku.mongodb.net/test?retryWrites=true&w=majority';
+const MONGO_URI = process.env.MONGO_URI || '';
 
 app.use(express.json());
 

@@ -3,9 +3,12 @@ import IGenre from '../interfaces/genre.interface';
 import Joi from 'joi';
 import { isGenreUnique } from '../utils/isGenreUnique';
 
-const GenreSchema = new Schema<IGenre>({
-	name: { type: String, required: true, unique: true },
-});
+const GenreSchema = new Schema<IGenre>(
+	{
+		name: { type: String, required: true, unique: true },
+	},
+	{ versionKey: false }
+);
 
 const Genre = model<IGenre>('Genre', GenreSchema);
 
