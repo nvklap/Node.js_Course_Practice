@@ -111,7 +111,7 @@ describe('movieController', () => {
 		});
 	});
 
-	describe(' getMoviesByGenre', () => {
+	describe('getMoviesByGenre', () => {
 		it('should respond with 200 status and found movies array', async () => {
 			const req = getMockReq({
 				params: { genreName: genresMockData[0].name },
