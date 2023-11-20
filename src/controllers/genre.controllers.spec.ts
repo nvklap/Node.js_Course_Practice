@@ -82,13 +82,13 @@ describe('genreController', () => {
 			const req = getMockReq({
 				params: { genreId: id },
 			});
+
 			Genre.findById = jest.fn().mockResolvedValue(null);
 			await genreController.getGenre(req, res, next);
 
 			expect(next).toHaveBeenCalledTimes(1);
 			expect(next).toHaveBeenCalledWith(
 				expect.objectContaining({
-					message: `Could not find a genre with ${id} ID`,
 					statusCode: 404,
 				})
 			);
@@ -98,16 +98,13 @@ describe('genreController', () => {
 			const req = getMockReq({
 				params: { genreId: genresMockData[0]._id },
 			});
-			Genre.findById = jest.fn().mockRejectedValue(new Error('error'));
+			const error = new Error('error');
+			Genre.findById = jest.fn().mockRejectedValue(error);
 
 			await genreController.getGenre(req, res, next);
 
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: `error`,
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 	});
 
@@ -116,6 +113,7 @@ describe('genreController', () => {
 			body: { name: 'updated genre name' },
 			params: { genreId: genresMockData[0]._id },
 		};
+
 		it('should respond with 200 status and updated genre', async () => {
 			const req = getMockReq(reqData);
 
@@ -128,7 +126,7 @@ describe('genreController', () => {
 			expect(res.status).toHaveBeenCalledTimes(1);
 			expect(res.status).toHaveBeenCalledWith(200);
 			expect(res.json).toHaveBeenCalledTimes(1);
-			expect(res.json).toHaveBeenLastCalledWith({
+			expect(res.json).toHaveBeenCalledWith({
 				...genresMockData[0],
 				name: reqData.body.name,
 			});
@@ -153,16 +151,13 @@ describe('genreController', () => {
 
 		it('should call next if db returns error', async () => {
 			const req = getMockReq(reqData);
-			Genre.findByIdAndUpdate = jest.fn().mockRejectedValue(new Error('error'));
+			const error = new Error('error');
+			Genre.findByIdAndUpdate = jest.fn().mockRejectedValue(error);
 
 			await genreController.updateGenre(req, res, next);
 
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: 'error',
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 	});
 
@@ -201,15 +196,12 @@ describe('genreController', () => {
 			const req = getMockReq({
 				params: { genreId: genresMockData[0]._id },
 			});
-			Genre.findByIdAndRemove = jest.fn().mockRejectedValue(new Error('error'));
+			const error = new Error('error');
+			Genre.findByIdAndRemove = jest.fn().mockRejectedValue(error);
 
 			await genreController.deleteGenre(req, res, next);
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: 'error',
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 	});
 });

@@ -98,16 +98,13 @@ describe('movieController', () => {
 			const req = getMockReq({
 				params: { genreId: moviesMockData[0]._id },
 			});
-			Movie.findById = jest.fn().mockRejectedValue(new Error('error'));
+			const error = new Error('error');
+			Movie.findById = jest.fn().mockRejectedValue(error);
 
 			await movieController.getMovieById(req, res, next);
 
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: `error`,
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 	});
 
@@ -183,11 +180,7 @@ describe('movieController', () => {
 			await movieController.getMovieById(req, res, next);
 
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: `error`,
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 
 		it('should call next if  movie collection returns error', async () => {
@@ -202,11 +195,7 @@ describe('movieController', () => {
 			await movieController.getMovieById(req, res, next);
 
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: `error`,
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 	});
 
@@ -300,15 +289,12 @@ describe('movieController', () => {
 			const req = getMockReq({
 				params: { genreId: moviesMockData[0]._id },
 			});
+			const error = new Error('error');
 			Movie.findByIdAndRemove = jest.fn().mockRejectedValue(new Error('error'));
 
 			await movieController.deleteMovie(req, res, next);
 			expect(next).toHaveBeenCalledTimes(1);
-			expect(next).toHaveBeenCalledWith(
-				expect.objectContaining({
-					message: 'error',
-				})
-			);
+			expect(next).toHaveBeenCalledWith(error);
 		});
 	});
 });

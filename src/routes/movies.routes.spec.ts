@@ -14,7 +14,7 @@ describe('Movies API endpoints', () => {
 		jest.restoreAllMocks();
 	});
 
-	xdescribe('GET /movies', () => {
+	describe('GET /movies', () => {
 		beforeAll(async () => {
 			await Movie.create(movieBody);
 		});

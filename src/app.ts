@@ -12,10 +12,6 @@ const app: Express = express();
 
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) =>
-	res.send('<a href="/health-check">Health<a>')
-);
-
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 app.use('/health-check', healthRouter);

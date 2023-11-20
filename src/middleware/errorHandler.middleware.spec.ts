@@ -21,11 +21,9 @@ describe('ErroHandler', () => {
 		expect(res.status).toHaveBeenCalledTimes(1);
 		expect(res.status).toHaveBeenCalledWith(500);
 		expect(res.json).toHaveBeenCalledTimes(1);
-		expect(res.json).toHaveBeenCalledWith(
-			expect.objectContaining({
-				error: { statusCode: 500, message: expect.any(String) },
-			})
-		);
+		expect(res.json).toHaveBeenCalledWith({
+			error: { statusCode: 500, message: expect.any(String) },
+		});
 	});
 
 	it('should return 422 in the case of Joi ValidationError', async () => {
@@ -47,11 +45,9 @@ describe('ErroHandler', () => {
 		expect(res.status).toHaveBeenCalledTimes(1);
 		expect(res.status).toHaveBeenCalledWith(422);
 		expect(res.json).toHaveBeenCalledTimes(1);
-		expect(res.json).toHaveBeenCalledWith(
-			expect.objectContaining({
-				error: { statusCode: 422, message: expect.any(String) },
-			})
-		);
+		expect(res.json).toHaveBeenCalledWith({
+			error: { statusCode: 422, message: expect.any(String) },
+		});
 	});
 
 	it('should return 422 in the case of Mongoose CastError', async () => {
@@ -62,11 +58,9 @@ describe('ErroHandler', () => {
 		expect(res.status).toHaveBeenCalledTimes(1);
 		expect(res.status).toHaveBeenCalledWith(422);
 		expect(res.json).toHaveBeenCalledTimes(1);
-		expect(res.json).toHaveBeenCalledWith(
-			expect.objectContaining({
-				error: { statusCode: 422, message: expect.any(String) },
-			})
-		);
+		expect(res.json).toHaveBeenCalledWith({
+			error: { statusCode: 422, message: expect.any(String) },
+		});
 	});
 
 	it('should return statusCode and message in the case of CustomError', async () => {
@@ -77,10 +71,8 @@ describe('ErroHandler', () => {
 		expect(res.status).toHaveBeenCalledTimes(1);
 		expect(res.status).toHaveBeenCalledWith(404);
 		expect(res.json).toHaveBeenCalledTimes(1);
-		expect(res.json).toHaveBeenCalledWith(
-			expect.objectContaining({
-				error: { statusCode: 404, message: expect.any(String) },
-			})
-		);
+		expect(res.json).toHaveBeenCalledWith({
+			error: { statusCode: 404, message: expect.any(String) },
+		});
 	});
 });
