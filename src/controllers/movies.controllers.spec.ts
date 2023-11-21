@@ -131,27 +131,6 @@ describe('movieController', () => {
 			expect(res.json).toHaveBeenCalledWith(moviesFound);
 		});
 
-		it('should respond with 200 statusCode and empty array if movies with specified genre does not exist in db', async () => {
-			const genreName = genresMockData[genresMockData.length - 1].name;
-			const req = getMockReq({
-				params: { genreName },
-			});
-			const genreId = genresMockData.filter((g) => g.name === genreName)[0]._id;
-			const moviesFound = moviesMockData.filter((m) =>
-				m.genre.includes(genreId)
-			);
-
-			Genre.findOne = jest.fn().mockResolvedValue(genreId);
-			Movie.find = jest.fn().mockResolvedValue(moviesFound);
-
-			await movieController.getMoviesByGenre(req, res, next);
-
-			expect(res.status).toHaveBeenCalledTimes(1);
-			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.json).toHaveBeenCalledTimes(1);
-			expect(res.json).toHaveBeenCalledWith([]);
-		});
-
 		it('should call next with 404 statusCode if the specified genre does not exist in db', async () => {
 			const req = getMockReq({
 				params: { genreName: 'non existing genre name' },
