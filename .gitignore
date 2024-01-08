@@ -1,4 +1,6 @@
 node_modules/
 dist/
 temp.json
+test-test.spec.ts
 .env
+coverage/

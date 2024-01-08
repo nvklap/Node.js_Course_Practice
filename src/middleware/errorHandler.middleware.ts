@@ -3,7 +3,7 @@ import { Error } from 'mongoose';
 import { ValidationError } from 'joi';
 import CustomError from '../utils/CustomError';
 
-const errorHandler = (
+export const errorHandler = (
 	error: unknown,
 	_req: Request,
 	res: Response,
